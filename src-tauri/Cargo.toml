@@ -1,8 +1,8 @@
 [package]
 name = "time-tracker"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "1.0.0"
+description = "A simple and elegant time tracking application for macOS"
+authors = ["Arif Hasan"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

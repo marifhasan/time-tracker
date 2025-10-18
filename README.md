@@ -1,5 +1,9 @@
 # Time Tracker - macOS Menu Bar App
 
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/marifhasan/time-tracker/releases)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tauri](https://img.shields.io/badge/Tauri-2.1-orange.svg)](https://tauri.app/)
+
 A beautiful, minimalist time tracking application built with Tauri, React, and TypeScript. Track your project time effortlessly from your macOS menu bar.
 
 ## Features
@@ -34,11 +38,21 @@ Before running this application, make sure you have:
 - [Rust](https://www.rust-lang.org/) (latest stable version)
 - macOS (for menu bar functionality)
 
-## Installation
+## Quick Start
+
+### Download Pre-built Binary (Recommended)
+
+1. Go to the [Releases](https://github.com/marifhasan/time-tracker/releases) page
+2. Download the latest `.dmg` file for macOS
+3. Open the `.dmg` file and drag the app to your Applications folder
+4. Launch "Time Tracker" from your Applications
+
+### Build from Source
 
 1. Clone the repository:
 ```bash
-cd /Users/arifhas/Herd/time-tracker
+git clone https://github.com/marifhasan/time-tracker.git
+cd time-tracker
 ```
 
 2. Install dependencies:
@@ -61,7 +75,7 @@ This will:
 - Compile the Rust backend
 - Launch the application in development mode with hot-reload
 
-## Build
+## Production Build
 
 Create a production build:
 
@@ -69,7 +83,17 @@ Create a production build:
 npm run tauri build
 ```
 
-The compiled application will be available in `src-tauri/target/release/`.
+The compiled application will be available in:
+- **DMG installer**: `src-tauri/target/release/bundle/dmg/`
+- **macOS App**: `src-tauri/target/release/bundle/macos/`
+- **Binary**: `src-tauri/target/release/time-tracker`
+
+### Build Artifacts
+
+After building, you'll find:
+- `Time Tracker_1.0.0_aarch64.dmg` (for Apple Silicon)
+- `Time Tracker_1.0.0_x64.dmg` (for Intel Macs)
+- Ready-to-distribute `.app` bundle
 
 ## Project Structure
 

@@ -56,7 +56,7 @@ export function TimerProvider({ children }: { children: React.ReactNode }) {
 
   const startTimer = useCallback(async (projectId: number) => {
     try {
-      const entryId = await db.startTimer(projectId);
+      await db.startTimer(projectId);
       await refreshTimer();
     } catch (error) {
       console.error('Failed to start timer:', error);

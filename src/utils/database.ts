@@ -32,7 +32,7 @@ export async function createProject(name: string, color: string = '#3B82F6'): Pr
     'INSERT INTO projects (name, color) VALUES ($1, $2)',
     [name, color]
   );
-  return result.lastInsertId;
+  return result.lastInsertId as number;
 }
 
 export async function updateProject(id: number, name?: string, color?: string): Promise<void> {
@@ -71,7 +71,7 @@ export async function startTimer(projectId: number): Promise<number> {
     'INSERT INTO time_entries (project_id, start_time) VALUES ($1, $2)',
     [projectId, startTime]
   );
-  return result.lastInsertId;
+  return result.lastInsertId as number;
 }
 
 export async function stopTimer(entryId: number): Promise<void> {

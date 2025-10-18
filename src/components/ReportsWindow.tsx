@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { getTimeEntries, getProjectStats } from '../utils/database';
+import { getTimeEntries, getProjectStats, deleteProject } from '../utils/database';
 import { getStartOfDay, getEndOfDay, getStartOfWeek, getEndOfWeek, formatDuration } from '../utils/formatTime';
 import { exportToCSV } from '../utils/exportCSV';
 import type { TimeEntryWithProject, ProjectStats } from '../types';
 import { format } from 'date-fns';
+import { ConfirmDialog } from './ConfirmDialog';
 
 type DateRange = 'today' | 'week' | 'last-week' | 'custom';
 
@@ -14,6 +15,17 @@ export function ReportsWindow() {
   const [entries, setEntries] = useState<TimeEntryWithProject[]>([]);
   const [stats, setStats] = useState<ProjectStats[]>([]);
   const [loading, setLoading] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
 
   useEffect(() => {
     loadData();
@@ -67,6 +79,19 @@ export function ReportsWindow() {
     } catch (error) {
       console.error('Failed to export:', error);
     }
+  };
+
+  const handleDeleteProject = (projectId: number, projectName: string) => {
+    setConfirmDialog({
+      isOpen: true,
+      title: 'Delete Project?',
+      message: `Are you sure you want to delete "${projectName}"? This will also delete all associated time entries. This action cannot be undone.`,
+      onConfirm: async () => {
+        await deleteProject(projectId);
+        await loadData();
+        setConfirmDialog({ ...confirmDialog, isOpen: false });
+      },
+    });
   };
 
   const totalSeconds = stats.reduce((sum, stat) => sum + stat.total_seconds, 0);
@@ -170,6 +195,15 @@ export function ReportsWindow() {
                       <span className="font-medium text-gray-800 dark:text-gray-100">
                         {stat.project_name}
                       </span>
+                      <button
+                        onClick={() => handleDeleteProject(stat.project_id, stat.project_name)}
+                        className="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                        title="Delete project"
+                      >
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
                     </div>
                     <div className="text-right">
                       <div className="font-semibold text-gray-800 dark:text-gray-100">
@@ -241,6 +275,18 @@ export function ReportsWindow() {
           </div>
         )}
       </div>
+
+      {/* Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        type="danger"
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={confirmDialog.onConfirm}
+        onCancel={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}
+      />
     </div>
   );
 }

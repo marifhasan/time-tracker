@@ -22,17 +22,17 @@ export function QuickStats() {
   }, []);
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Today</div>
-        <div className="text-2xl font-bold text-gray-900 dark:text-white tabular-nums">
+    <div className="grid grid-cols-2 gap-2.5">
+      <div className="p-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="text-[9px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-0.5">Today</div>
+        <div className="text-base font-bold text-gray-900 dark:text-white tabular-nums">
           {formatShortDuration(todayTotal)}
         </div>
       </div>
 
-      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">This Week</div>
-        <div className="text-2xl font-bold text-gray-900 dark:text-white tabular-nums">
+      <div className="p-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="text-[9px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-0.5">This Week</div>
+        <div className="text-base font-bold text-gray-900 dark:text-white tabular-nums">
           {formatShortDuration(weekTotal)}
         </div>
       </div>

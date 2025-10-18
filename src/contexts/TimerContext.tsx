@@ -11,6 +11,7 @@ interface TimerContextType {
   stopTimer: () => Promise<void>;
   loadProjects: () => Promise<void>;
   createProject: (name: string, color?: string) => Promise<void>;
+  deleteProject: (id: number) => Promise<void>;
   refreshTimer: () => Promise<void>;
 }
 
@@ -85,6 +86,16 @@ export function TimerProvider({ children }: { children: React.ReactNode }) {
     }
   }, [loadProjects]);
 
+  const deleteProject = useCallback(async (id: number) => {
+    try {
+      await db.deleteProject(id);
+      await loadProjects();
+    } catch (error) {
+      console.error('Failed to delete project:', error);
+      throw error;
+    }
+  }, [loadProjects]);
+
   // Update elapsed time every second when timer is running
   useEffect(() => {
     if (isRunning && currentEntry) {
@@ -132,6 +143,7 @@ export function TimerProvider({ children }: { children: React.ReactNode }) {
         stopTimer,
         loadProjects,
         createProject,
+        deleteProject,
         refreshTimer,
       }}
     >
